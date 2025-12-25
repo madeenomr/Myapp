@@ -11,12 +11,16 @@ jobs:
         with:
           flutter-version: '3.19.0'
           channel: 'stable'
+      
+      # الخطوة السحرية 1: بناء ملفات النظام الناقصة
+      - run: flutter create .
           
       - run: flutter pub get
       
-      - run: flutter build apk --release --no-sound-null-safety
+      # الخطوة السحرية 2: أمر البناء الحديث (بدون الكلمات القديمة)
+      - run: flutter build apk --release
       
       - uses: actions/upload-artifact@v4
         with:
-          name: my-app-apk
+          name: mahdara-app
           path: build/app/outputs/flutter-apk/app-release.apk
