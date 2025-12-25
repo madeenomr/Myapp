@@ -1,25 +1,90 @@
-name: Build APK
-on: [push, workflow_dispatch]
+import 'package:flutter/material.dart';
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.19.0'
-          channel: 'stable'
-      
-      # هنا الحل: أجبرناه أن يستخدم اسماً صغيراً
-      - run: flutter create --project-name myapp .
-          
-      - run: flutter pub get
-      
-      - run: flutter build apk --release
-      
-      - uses: actions/upload-artifact@v4
-        with:
-          name: mahdara-app
-          path: build/app/outputs/flutter-apk/app-release.apk-v2
+void main() {
+  runApp(const MahdaraApp());
+}
+
+class MahdaraApp extends StatelessWidget {
+  const MahdaraApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'نظام المحاظر',
+      // هذا السطر هو سر اللغة العربية
+      builder: (context, child) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: child!,
+        );
+      },
+      theme: ThemeData(
+        primarySwatch: Colors.green, // اللون الأخضر الإسلامي
+        useMaterial3: true,
+      ),
+      home: const HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('المحاظر الشنقيطية', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        backgroundColor: const Color(0xFF006400), // أخضر غامق
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // صورة أو أيقونة كبيرة (اللوح)
+            const Icon(Icons.menu_book, size: 100, color: Color(0xFF006400)),
+            const SizedBox(height: 20),
+            const Text(
+              'مرحباً بكم في نظام التسيير',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 40),
+            
+            // زر المدير
+            SizedBox(
+              width: 250,
+              height: 50,
+              child: ElevatedButton.icon(
+                onPressed: () {}, 
+                icon: const Icon(Icons.admin_panel_settings),
+                label: const Text('دخول الإدارة', style: TextStyle(fontSize: 18)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF006400),
+                  foregroundColor: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            
+            // زر الأستاذ
+            SizedBox(
+              width: 250,
+              height: 50,
+              child: ElevatedButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.person),
+                label: const Text('دخول الأستاذ', style: TextStyle(fontSize: 18)),
+                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.brown, // لون خشبي
+                  foregroundColor: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
