@@ -12,12 +12,11 @@ jobs:
           flutter-version: '3.19.0'
           channel: 'stable'
       
-      # الخطوة السحرية 1: بناء ملفات النظام الناقصة
-      - run: flutter create .
+      # هنا الحل: أجبرناه أن يستخدم اسماً صغيراً
+      - run: flutter create --project-name myapp .
           
       - run: flutter pub get
       
-      # الخطوة السحرية 2: أمر البناء الحديث (بدون الكلمات القديمة)
       - run: flutter build apk --release
       
       - uses: actions/upload-artifact@v4
